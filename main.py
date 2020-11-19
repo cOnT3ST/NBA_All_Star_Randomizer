@@ -41,9 +41,31 @@ class Team:
 		self.name = name
 		self.roster = roster
 
+	def randomize(self):
+		for pos in self.formation:
+			copy_db = db[:]
+			suitable_players = certain_pos(copy_db,pos)
+			random_player = Player(random.choice(suitable_players))
+			random_player.pos = pos
+			self.roster.append(random_player)
+
 	def __str__(self):
 		str_team = f'{self.name} \n'
 		for player in self.roster:
 			str_team += f'{player.pos}: {player.name} \n'
 		str_team = str_team[:-1]
 		return str_team
+
+def certain_pos(pl_list, pos):
+	pos_list = []
+	for player in pl_list:
+		if pos in player['pos']:
+			pos_list.append(player)
+	return pos_list
+
+tm1 = Team("Team West")
+tm1.randomize()
+print(tm1)
+tm2 = Team("Team East")
+tm2.randomize()
+print(tm2)
